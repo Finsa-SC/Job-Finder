@@ -44,27 +44,6 @@ class RegisterActivity : AppCompatActivity() {
         lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
 
         btnRegister.setOnClickListener {
-            var root = findViewById<ViewGroup>(R.id.main)
-            if (ValidationHelper.isEmtyBox(root, this)) return@setOnClickListener
-
-            val jsonData = JSONObject().apply {
-                put("fullname", txtFullname.text.toString().trim())
-                put("email", txtEmail.text.toString().trim())
-                put("phoneNumber", txtPhone.text.toString().trim())
-                put("password", txtPassword.text.toString().trim())
-                put("confirmPassword", txtCPassword.text.toString().trim())
-            }
-            Thread{
-                val (responseCode ,responseText) = ApiHelper.post("register", jsonData)
-                runOnUiThread {
-                    if (responseText!=null){
-                        val json = JSONObject(responseText)
-                    }
-                    else{
-                        Toast.makeText(this, "Server is not responding!!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
         }
     }
 }
