@@ -44,6 +44,8 @@ class RegisterActivity : AppCompatActivity() {
         lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
 
         btnRegister.setOnClickListener {
+            val main = findViewById<ViewGroup>(R.id.main)
+            if(ValidationHelper.isNull(main, this)) return@setOnClickListener
         }
     }
 }
