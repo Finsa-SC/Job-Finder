@@ -45,8 +45,7 @@ class RegisterActivity : AppCompatActivity() {
         lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
 
         btnRegister.setOnClickListener {
-            var root = findViewById<ViewGroup>(R.id.main)
-            if (ValidationHelper.isNull(root, this)) return@setOnClickListener
+            validation()
 
             val jsonData = JSONObject().apply {
                 put("fullname", txtFullname.text.toString().trim())
@@ -74,5 +73,30 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }.start()
         }
+    }
+
+    private fun validation(): Boolean{
+//        Emty Blok
+        var root = findViewById<ViewGroup>(R.id.main)
+        if (ValidationHelper.isNull(root, this)) return true
+
+//        email format
+        val emailText = txtEmail.text
+        if(!emailText.toString().endsWith("@gmail.com")){
+            Toast.makeText(this, "Email not Valid!!", Toast.LENGTH_SHORT).show()
+            return true
+        }
+
+//        password weakness
+        val password = txtPassword.text.toString()
+        if(password.length<8){
+            Toast.makeText(this, "Please try more long password!!", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        else if(!password.any{it.isUpperCase()}){
+            Toast.makeText(this, "Please try matleast one uppercase char!!", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        return false
     }
 }

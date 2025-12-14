@@ -11,6 +11,13 @@ object ValidationHelper {
         return checkNullValue(view, context)
     }
 
+    fun checkString(text: TextInputEditText, containt: String): Boolean{
+        if (!text.text.toString().contains(containt)){
+            return true
+        }
+        return false
+    }
+
     private fun checkNullValue(view: View, context: Context): Boolean{
         return when(view){
             is TextInputEditText ->{
