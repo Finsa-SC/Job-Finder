@@ -12,18 +12,18 @@ object ApiHelper {
         var conn: HttpURLConnection? = null
         return try{
             conn = (URL(baseUrl+endpoint).openConnection() as HttpURLConnection).apply {
-                requestMethod=method
+                requestMethod="POST"
+                connectTimeout=5000
+                readTimeout=5000
                 if(jsonBody!=null){
                     setRequestProperty("Content-Type", "application/json")
                     doOutput=true
                 }
-                connectTimeout=5000
-                readTimeout=5000
             }
 
-            jsonBody?.let{
-                conn.outputStream.use { outputStream ->
-                    outputStream.write(it.toString().toByteArray())
+            jsonBody?.let {
+                conn.outputStream.use { os ->
+                    os.write(it.toString().toByteArray())
                 }
             }
 
@@ -32,16 +32,14 @@ object ApiHelper {
             val responseText = try{
                 if(responseCode in 200..299){
                     conn.inputStream.bufferedReader().use { it.readText() }
-                }else{
+                }
+                else{
                     conn.errorStream?.bufferedReader()?.use { it.readText() }
                 }
-            }catch (e:Exception){
-                e.printStackTrace()
-                null
-            }
-
+            }catch (e:Exception){null}
             Pair(responseCode, responseText)
-        }catch (e: IOException){
+        }
+        catch (e: IOException){
             e.printStackTrace()
             Pair(-1, null)
         }
@@ -51,8 +49,8 @@ object ApiHelper {
         }
     }
 
-    fun post(endpoint: String, jsonObject: JSONObject): Pair<Int, String?> = request("POST", endpoint, jsonObject)
-    fun put(endpoint: String, jsonObject: JSONObject): Pair<Int, String?> = request("PUT", endpoint, jsonObject)
+    fun post(endpoint: String, jsonBody: JSONObject): Pair<Int, String?> = request("POST", endpoint, jsonBody)
+    fun put(endpoint: String, jsonBody: JSONObject): Pair<Int, String?> = request("PUT", endpoint, jsonBody)
     fun get(endpoint: String): Pair<Int, String?> = request("GET", endpoint)
     fun delete(endpoint: String): Pair<Int, String?> = request("DELETE", endpoint)
 }

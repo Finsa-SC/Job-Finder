@@ -2,6 +2,7 @@ package com.example.gawe17
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -33,19 +34,45 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
-        txtFullname = findViewById<TextInputEditText>(R.id.txtFullname)
-        txtEmail = findViewById<TextInputEditText>(R.id.txtEmail)
-        txtPhone = findViewById<TextInputEditText>(R.id.txtPhone)
-        txtPassword = findViewById<TextInputEditText>(R.id.txtPassword)
-        txtCPassword = findViewById<TextInputEditText>(R.id.txtCPassword)
-        btnRegister = findViewById<Button>(R.id.btnRegister)
-        lblToLogin = findViewById<TextView>(R.id.lblToLogin)
+        txtFullname = findViewById(R.id.txtFullname)
+        txtEmail = findViewById(R.id.txtEmail)
+        txtPhone = findViewById(R.id.txtPhone)
+        txtPassword = findViewById(R.id.txtPassword)
+        txtCPassword = findViewById(R.id.txtCPassword)
+        btnRegister = findViewById(R.id.btnRegister)
+        lblToLogin = findViewById(R.id.lblToLogin)
 
         lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
 
         btnRegister.setOnClickListener {
-            val main = findViewById<ViewGroup>(R.id.main)
-            if(ValidationHelper.isNull(main, this)) return@setOnClickListener
+            var root = findViewById<ViewGroup>(R.id.main)
+            if (ValidationHelper.isNull(root, this)) return@setOnClickListener
+
+            val jsonData = JSONObject().apply {
+                put("fullname", txtFullname.text.toString().trim())
+                put("email", txtEmail.text.toString().trim())
+                put("phoneNumber", txtPhone.text.toString().trim())
+                put("password", txtPassword.text.toString().trim())
+                put("confirmPassword", txtCPassword.text.toString().trim())
+            }
+            Thread{
+                val (responseCode ,responseText) = ApiHelper.post("register", jsonData)
+                runOnUiThread {
+                    val jsonResponse = JSONObject(responseText)
+
+                    if (responseCode == 200 && responseText!=null){
+                        Toast.makeText(this, "Register Successfully!", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        this.finish()
+                    }
+                    else if(responseText!=null){
+                        Toast.makeText(this, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(this, "Server is not responding!!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }.start()
         }
     }
 }

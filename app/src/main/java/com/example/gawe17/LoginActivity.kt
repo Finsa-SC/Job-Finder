@@ -33,10 +33,10 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        txtEmail = findViewById<TextInputEditText>(R.id.txtEmail)
-        txtPassword = findViewById<TextInputEditText>(R.id.txtPassword)
-        btnLogin = findViewById<Button>(R.id.btnLogin)
-        lblToRegister = findViewById<TextView>(R.id.lblToRegister)
+        txtEmail = findViewById(R.id.txtEmail)
+        txtPassword = findViewById(R.id.txtPassword)
+        btnLogin = findViewById(R.id.btnLogin)
+        lblToRegister = findViewById(R.id.lblToRegister)
 
         lblToRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
             }
 
-
+            UserLogin()
         }
     }
 
@@ -63,17 +63,20 @@ class LoginActivity : AppCompatActivity() {
 
             runOnUiThread {
                 val jsonResponse = JSONObject(responseText)
+                val jsonData = jsonResponse.getJSONObject("data")
                 if(responseCode == 200 && responseText != null){
                     val user = UserSession(
-                        userId = jsonResponse.getInt("id"),
-                        profilePicture = jsonResponse.optString("profilePicture", null),
-                        fullName = jsonResponse.getString("fullName"),
-                        email = jsonResponse.getString("email"),
-                        phoneNumber = jsonResponse.getString("phoneNumber"),
-                        role = jsonResponse.getString("role"),
+                        userId = jsonData.getInt("id"),
+                        profilePicture = jsonData.optString("profilePicture", null),
+                        fullName = jsonData.getString("fullname"),
+                        email = jsonData.getString("email"),
+                        phoneNumber = jsonData.getString("phoneNumber"),
+                        role = jsonData.getString("role"),
                     )
                     Toast.makeText(this, "Success Login as "+ user.fullName, Toast.LENGTH_SHORT).show()
                     SessionManager.user = user
+                    startActivity(Intent(this, MainActivity::class.java))
+                    this.finish()
                 }
                 else if (responseText != null){
                     Toast.makeText(this, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show()
@@ -83,6 +86,5 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }.start()
-
     }
 }
