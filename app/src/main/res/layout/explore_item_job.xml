@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_bg">
+
+    <TextView
+        android:id="@+id/txvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Job Name"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txvCompany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Company Name"
+        android:textSize="17sp"/>
+
+    <TextView
+        android:id="@+id/txvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Location and Region"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/txtExperience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Experience"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Apply"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMark"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            app:icon="@android:drawable/btn_star_big_off"
+            android:text=""
+            android:padding="0dp"
+            app:iconPadding="0dp"
+            app:iconSize="24dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
