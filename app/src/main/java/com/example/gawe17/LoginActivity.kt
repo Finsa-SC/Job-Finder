@@ -63,15 +63,15 @@ class LoginActivity : AppCompatActivity() {
 
             runOnUiThread {
                 val jsonResponse = JSONObject(responseText)
-                val jsonData = jsonResponse.getJSONObject("data")
                 if(responseCode == 200 && responseText != null){
+                    val json = jsonResponse.getJSONObject("data")
                     val user = UserSession(
-                        userId = jsonData.getInt("id"),
-                        profilePicture = jsonData.optString("profilePicture", null),
-                        fullName = jsonData.getString("fullname"),
-                        email = jsonData.getString("email"),
-                        phoneNumber = jsonData.getString("phoneNumber"),
-                        role = jsonData.getString("role"),
+                        userId = json.getInt("id"),
+                        profilePicture = json.optString("profilePicture", null),
+                        fullName = json.getString("fullname"),
+                        email = json.getString("email"),
+                        phoneNumber = json.getString("phoneNumber"),
+                        role = json.getString("role"),
                     )
                     Toast.makeText(this, "Success Login as "+ user.fullName, Toast.LENGTH_SHORT).show()
                     SessionManager.user = user

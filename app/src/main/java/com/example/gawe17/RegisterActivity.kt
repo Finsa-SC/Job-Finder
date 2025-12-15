@@ -45,7 +45,7 @@ class RegisterActivity : AppCompatActivity() {
         lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
 
         btnRegister.setOnClickListener {
-            validation()
+            if (validation()) return@setOnClickListener
 
             val jsonData = JSONObject().apply {
                 put("fullname", txtFullname.text.toString().trim())
@@ -81,9 +81,22 @@ class RegisterActivity : AppCompatActivity() {
         if (ValidationHelper.isNull(root, this)) return true
 
 //        email format
-        val emailText = txtEmail.text
+        val emailText = txtEmail.text.toString()
         if(!emailText.toString().endsWith("@gmail.com")){
             Toast.makeText(this, "Email not Valid!!", Toast.LENGTH_SHORT).show()
+            return true
+        }
+
+//        phone number
+        var phone = txtPhone.text.toString()
+        if(phone.contains("+62")) phone = phone.replace("+62", "0")
+        if(phone.contains(" ")) phone = phone.replace(" ", "")
+        if(!phone.startsWith("08")){
+            Toast.makeText(this, "Phone Number not Valid!!", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        if(phone.length !in 10..12){
+            Toast.makeText(this, "Phone Number not Valid!!", Toast.LENGTH_SHORT).show()
             return true
         }
 
@@ -94,7 +107,7 @@ class RegisterActivity : AppCompatActivity() {
             return true
         }
         else if(!password.any{it.isUpperCase()}){
-            Toast.makeText(this, "Please try matleast one uppercase char!!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please try atleast one uppercase char!!", Toast.LENGTH_SHORT).show()
             return true
         }
         return false
