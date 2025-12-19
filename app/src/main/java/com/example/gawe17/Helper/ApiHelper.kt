@@ -2,6 +2,7 @@ package com.example.gawe17.Helper
 
 import org.json.JSONObject
 import java.io.IOException
+import java.lang.reflect.Method
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -12,7 +13,7 @@ object ApiHelper {
         var conn: HttpURLConnection? = null
         return try{
             conn = (URL(baseUrl+endpoint).openConnection() as HttpURLConnection).apply {
-                requestMethod="POST"
+                requestMethod= method
                 connectTimeout=5000
                 readTimeout=5000
                 if(jsonBody!=null){

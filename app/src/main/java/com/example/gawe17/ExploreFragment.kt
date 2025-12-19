@@ -1,15 +1,32 @@
 package com.example.gawe17
 
+import JobAdapter
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.gawe17.Helper.ApiHelper
+import com.example.gawe17.Model.JobList
+import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONObject
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -17,7 +34,25 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ExploreFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    private lateinit var problemLayout: View
+    private var rv: RecyclerView? = null
+
+    //filter
+    private var txtSearch: TextInputEditText? = null
+    private var txtlocation: String? = null
+    private lateinit var btnAll: Button
+    private lateinit var btnRemote: Button
+    private lateinit var btnOnsite: Button
+
+    //problem
+    private lateinit var problemText: TextView
+    private lateinit var problemImage: ImageView
+
+    //list
+    private var jobList = mutableListOf<JobList>()
+    private lateinit var adapter: JobAdapter
+
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -59,5 +94,119 @@ class ExploreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        problemLayout = view.findViewById(R.id.includeProblem)
+//        filter
+        txtSearch = view.findViewById(R.id.txtSearch)
+        btnAll = view.findViewById(R.id.btnAll)
+        btnRemote = view.findViewById(R.id.btnRemote)
+        btnOnsite = view.findViewById(R.id.btnOnsite)
+        btnAll.setOnClickListener {
+            txtlocation = null
+            loadJobs()
+        }
+        btnRemote.setOnClickListener {
+            txtlocation = "Remote"
+            loadJobs()
+        }
+        btnOnsite.setOnClickListener {
+            txtlocation = "Onsite"
+            loadJobs()
+        }
+        txtSearch?.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                loadJobs()
+                true
+            }else false
+        }
+//        pribblem
+        problemText = view.findViewById(R.id.txtProblem)
+        problemImage = view.findViewById(R.id.imgProblem)
+//        core
+        rv = view.findViewById(R.id.rvJob)
+
+        adapter = JobAdapter(jobList)
+        rv?.adapter = adapter
+        rv?.layoutManager = LinearLayoutManager(requireContext())
+
+        loadJobs()
+    }
+
+    private fun loadJobs(){
+        Thread{
+            val (code, response) = ApiHelper.get(endpointBuilder(search = txtSearch?.text?.toString(), location = txtlocation))
+
+            val jsonResponse = if(!response.isNullOrBlank()) JSONObject(response) else null
+
+            activity?.runOnUiThread {
+                if(code == 200 && jsonResponse!= null){
+                    val jsonData = jsonResponse.getJSONArray("data")
+                    
+                    if(jsonData.length() <=0){
+                        isProblem(
+                            true,
+                            "No Jobs Found Matching Your Criteria!!",
+                            R.drawable.furina_shock
+                        )
+                    }else{
+                        isProblem(false)
+                        jobList.clear()
+                        for(i in 0 until jsonData.length()){
+                            val json = jsonData.getJSONObject(i)
+                            val company = json.getJSONObject("company")
+                            if(json.getInt("quota") <= 0) continue
+                            jobList.add(JobList(
+                                jobId = json.getInt("id"),
+                                jobName = json.getString("name"),
+                                jobCompanyName = company.getString("name"),
+                                jobLocationType = json.getString("locationType"),
+                                jobLocationRegion = json.getString("locationRegion"),
+                                jobExperience = json.getString("yearOfExperience"),
+                                quota = json.getInt("quota")
+                            ))
+                        }
+                    }
+                }
+                else if(jsonResponse!=null){
+                    isProblem(
+                        true,
+                        jsonResponse.optString("message", "We Encountered an Issue While Processing Your Request!!"),
+                        R.drawable.furina_sigh
+                    )
+                }else{
+                    isProblem(
+                        true,
+                        "Server is Unreacheable. It's Not You, It's Us!",
+                        R.drawable.furina_crying
+                    )
+                }
+                adapter.notifyDataSetChanged()
+            }
+        }.start()
+    }
+
+    private fun endpointBuilder(search: String? = null, location: String? = null): String{
+        var params = mutableListOf<String?>()
+        if(!search.isNullOrBlank()){
+            params.add("search=${URLEncoder.encode(search, "UTF-8")}")
+        }
+        if(!location.isNullOrBlank()){
+            params.add("location=${URLEncoder.encode(location, "UTF-8")}")
+        }
+        return if(params.isEmpty()) "jobs" else "jobs?" + params.joinToString("&")
+    }
+
+    private fun isProblem(status: Boolean, txtProblem: String? = null, imgProblem: Int? = null){
+        if(status){
+            jobList.clear()
+
+            problemLayout.visibility = View.VISIBLE
+            rv?.visibility = View.GONE
+            
+            txtProblem?.let {  problemText.text = it  }
+            imgProblem?.let { problemImage.setImageResource(it) }
+        }else{
+            problemLayout.visibility = View.GONE
+            rv?.visibility = View.VISIBLE
+        }
     }
 }

@@ -44,10 +44,6 @@ class LoginActivity : AppCompatActivity() {
             val main = findViewById<ViewGroup>(R.id.main)
             if(ValidationHelper.isNull(main, this)) return@setOnClickListener
 
-            if(txtEmail.text.toString() == "admin" && txtPassword.text.toString() == "admin"){
-                startActivity(Intent(this, MainActivity::class.java))
-            }
-
             UserLogin()
         }
     }
@@ -62,8 +58,8 @@ class LoginActivity : AppCompatActivity() {
             val (responseCode, responseText) = ApiHelper.post("auth", jsonData)
 
             runOnUiThread {
-                val jsonResponse = JSONObject(responseText)
-                if(responseCode == 200 && responseText != null){
+                val jsonResponse = if(responseText!=null) JSONObject(responseText) else null
+                if(responseCode == 200 && jsonResponse != null){
                     val json = jsonResponse.getJSONObject("data")
                     val user = UserSession(
                         userId = json.getInt("id"),
@@ -79,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                     this.finish()
                 }
                 else if (responseText != null){
-                    Toast.makeText(this, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, jsonResponse?.getString("message"), Toast.LENGTH_SHORT).show()
                 }
                 else{
                     Toast.makeText(this, "Server not responding!!", Toast.LENGTH_SHORT).show()

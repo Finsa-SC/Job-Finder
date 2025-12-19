@@ -28,7 +28,7 @@ class JobAdapter(
         holder.title.text = job.jobName
         holder.company.text = job.jobCompanyName
         holder.location.text = "${job.jobLocationType} (${job.jobLocationRegion})"
-        holder.experience.text = "Min. $job.jobExperience years of experience"
+        holder.experience.text = "Min. ${job.jobExperience} years of experience"
     }
 
     override fun getItemCount(): Int = jobs.size

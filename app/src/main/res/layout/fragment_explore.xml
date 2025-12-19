@@ -34,12 +34,14 @@
                 android:id="@+id/txtSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <Button
@@ -61,7 +63,24 @@
                 android:text="Remote"/>
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvJob"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp" />
+            <include
+                android:id="@+id/includeProblem"
+                layout="@layout/problem_occurred_layout"
+                android:visibility="gone"/>
+        </FrameLayout>
     </LinearLayout>
+
 
 
 </FrameLayout>
