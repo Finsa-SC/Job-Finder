@@ -102,14 +102,17 @@ class ExploreFragment : Fragment() {
         btnOnsite = view.findViewById(R.id.btnOnsite)
         btnAll.setOnClickListener {
             txtlocation = null
+            activeButton(btnAll)
             loadJobs()
         }
         btnRemote.setOnClickListener {
             txtlocation = "Remote"
+            activeButton(btnRemote)
             loadJobs()
         }
         btnOnsite.setOnClickListener {
             txtlocation = "Onsite"
+            activeButton(btnOnsite)
             loadJobs()
         }
         txtSearch?.setOnEditorActionListener { v, actionId, event ->
@@ -129,6 +132,7 @@ class ExploreFragment : Fragment() {
         rv?.layoutManager = LinearLayoutManager(requireContext())
 
         loadJobs()
+        activeButton(btnAll)
     }
 
     private fun loadJobs(){
@@ -208,5 +212,13 @@ class ExploreFragment : Fragment() {
             problemLayout.visibility = View.GONE
             rv?.visibility = View.VISIBLE
         }
+    }
+
+    private fun activeButton(btn: Button){
+        btnAll.isSelected = false
+        btnOnsite.isSelected = false
+        btnRemote.isSelected = false
+
+        btn.isSelected = true
     }
 }

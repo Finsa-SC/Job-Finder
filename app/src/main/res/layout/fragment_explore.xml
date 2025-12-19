@@ -44,23 +44,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="All"/>
-            <Button
+                android:text="All"
+                android:textColor="@drawable/text_selector"
+                android:background="@drawable/button_inactive"
+                android:backgroundTint="@null"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnOnsite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="Onsite"/>
-            <Button
+                android:text="Onsite"
+                android:textColor="@drawable/text_selector"
+                android:background="@drawable/button_inactive"
+                android:backgroundTint="@null"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRemote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remote"/>
+                android:text="Remote"
+                android:textColor="@drawable/text_selector"
+                android:background="@drawable/button_inactive"
+                android:backgroundTint="@null"/>
 
         </LinearLayout>
 
