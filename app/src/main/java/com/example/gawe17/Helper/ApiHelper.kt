@@ -6,7 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object ApiHelper {
-    private const val baseUrl = "http://10.202.43.46:5000/api/"
+    private const val baseUrl = "http://10.0.2.2:5000/api/"
 
     private fun request(method: String, endpoint: String, jsonBody: JSONObject? = null): Pair<Int, String?>{
         var conn: HttpURLConnection? = null
@@ -49,8 +49,8 @@ object ApiHelper {
         }
     }
 
-    fun post(endpoint: String, jsonBody: JSONObject): Pair<Int, String?> = request("POST", endpoint, jsonBody)
-    fun put(endpoint: String, jsonBody: JSONObject): Pair<Int, String?> = request("PUT", endpoint, jsonBody)
+    fun post(endpoint: String, jsonBody: JSONObject? = null): Pair<Int, String?> = request("POST", endpoint, jsonBody)
+    fun put(endpoint: String, jsonBody: JSONObject? = null): Pair<Int, String?> = request("PUT", endpoint, jsonBody)
     fun get(endpoint: String): Pair<Int, String?> = request("GET", endpoint)
     fun delete(endpoint: String): Pair<Int, String?> = request("DELETE", endpoint)
 }

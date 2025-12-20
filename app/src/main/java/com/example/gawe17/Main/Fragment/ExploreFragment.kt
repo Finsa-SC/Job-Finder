@@ -1,6 +1,7 @@
-package com.example.gawe17
+package com.example.gawe17.Main.Fragment
 
 import JobAdapter
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,13 +11,17 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gawe17.Helper.ApiHelper
+import com.example.gawe17.Main.Fragment.ItemExplore.JobDetailActivity
 import com.example.gawe17.Models.JobList
+import com.example.gawe17.R
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 import java.net.URLEncoder
+import kotlin.concurrent.thread
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -124,7 +129,16 @@ class ExploreFragment : Fragment() {
 //        core
         rv = view.findViewById(R.id.rvJob)
 
-        adapter = JobAdapter(jobList)
+        adapter = JobAdapter(
+            jobList,
+            onItemClick = { job ->
+                val intent = Intent(requireContext(), JobDetailActivity::class.java)
+                intent.putExtra("JOB_ID", job.jobId)
+                startActivity(intent)
+            },{ job ->
+                applyJob(job.jobId)
+            }
+            )
         rv?.adapter = adapter
         rv?.layoutManager = LinearLayoutManager(requireContext())
 
@@ -183,6 +197,17 @@ class ExploreFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }.start()
+    }
+    private fun applyJob(jobId: Int){
+        Thread {
+            val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
+            activity?.runOnUiThread {
+                if(code==200){
+                    Toast.makeText(requireContext(), "Success Applied Job", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.start()
+
     }
 
     private fun endpointBuilder(search: String? = null, location: String? = null): String{

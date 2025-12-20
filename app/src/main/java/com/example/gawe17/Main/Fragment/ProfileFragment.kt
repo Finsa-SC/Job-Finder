@@ -1,4 +1,4 @@
-package com.example.gawe17
+package com.example.gawe17.Main.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.gawe17.Helper.SessionManager
+import com.example.gawe17.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

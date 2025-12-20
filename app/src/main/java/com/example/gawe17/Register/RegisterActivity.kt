@@ -1,8 +1,7 @@
-package com.example.gawe17
+package com.example.gawe17.Register
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -13,6 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.gawe17.Helper.ApiHelper
 import com.example.gawe17.Helper.ValidationHelper
+import com.example.gawe17.Login.LoginActivity
+import com.example.gawe17.R
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 

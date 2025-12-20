@@ -1,4 +1,4 @@
-package com.example.gawe17
+package com.example.gawe17.Login
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +13,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.gawe17.Helper.ApiHelper
 import com.example.gawe17.Helper.SessionManager
 import com.example.gawe17.Helper.ValidationHelper
+import com.example.gawe17.Main.MainActivity
 import com.example.gawe17.Models.UserSession
+import com.example.gawe17.R
+import com.example.gawe17.Register.RegisterActivity
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 

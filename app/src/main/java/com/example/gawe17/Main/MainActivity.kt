@@ -1,6 +1,5 @@
-package com.example.gawe17
+package com.example.gawe17.Main
 
-//import com.example.gawe17.
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.gawe17.Main.Fragment.ExploreFragment
+import com.example.gawe17.Main.Fragment.MyJobFragment
+import com.example.gawe17.Main.Fragment.ProfileFragment
+import com.example.gawe17.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navExplore: TextView
