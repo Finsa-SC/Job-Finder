@@ -2,7 +2,6 @@ package com.example.gawe17
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.UserManager
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -14,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.gawe17.Helper.ApiHelper
 import com.example.gawe17.Helper.SessionManager
 import com.example.gawe17.Helper.ValidationHelper
-import com.example.gawe17.Model.UserSession
+import com.example.gawe17.Models.UserSession
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 

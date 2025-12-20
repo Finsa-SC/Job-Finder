@@ -2,12 +2,11 @@ package com.example.gawe17.Helper
 
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.reflect.Method
 import java.net.HttpURLConnection
 import java.net.URL
 
 object ApiHelper {
-    private const val baseUrl = "http://10.0.2.2:5000/api/"
+    private const val baseUrl = "http://10.202.43.46:5000/api/"
 
     private fun request(method: String, endpoint: String, jsonBody: JSONObject? = null): Pair<Int, String?>{
         var conn: HttpURLConnection? = null

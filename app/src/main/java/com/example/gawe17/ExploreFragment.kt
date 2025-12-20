@@ -1,7 +1,6 @@
 package com.example.gawe17
 
 import JobAdapter
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,14 +10,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gawe17.Helper.ApiHelper
-import com.example.gawe17.Model.JobList
+import com.example.gawe17.Models.JobList
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
-import java.net.URLDecoder
 import java.net.URLEncoder
 
 // TODO: Rename parameter arguments, choose names that match

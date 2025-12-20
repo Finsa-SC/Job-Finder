@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.gawe17.R
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gawe17.Model.JobList
+import com.example.gawe17.Models.JobList
 
 class JobAdapter(
     private val jobs: List<JobList>
