@@ -1,6 +1,7 @@
 package com.example.gawe17.Main.Fragment
 
 import JobAdapter
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gawe17.Helper.ApiHelper
+import com.example.gawe17.Helper.UIHelper
 import com.example.gawe17.Main.Fragment.ItemExplore.JobDetailActivity
 import com.example.gawe17.Models.JobList
 import com.example.gawe17.R
@@ -22,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 import java.net.URLEncoder
 import kotlin.concurrent.thread
+import kotlin.text.clear
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -137,8 +140,9 @@ class ExploreFragment : Fragment() {
                 startActivity(intent)
             },{ job ->
                 applyJob(job.jobId)
+                loadJobs()
             }
-            )
+        )
         rv?.adapter = adapter
         rv?.layoutManager = LinearLayoutManager(requireContext())
 
@@ -203,7 +207,7 @@ class ExploreFragment : Fragment() {
             val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
             activity?.runOnUiThread {
                 if(code==200){
-                    Toast.makeText(requireContext(), "Success Applied Job", Toast.LENGTH_SHORT).show()
+                    UIHelper.showDialog(requireContext(), "Success Applied a Job!")
                 }
             }
         }.start()
@@ -221,13 +225,13 @@ class ExploreFragment : Fragment() {
         return if(params.isEmpty()) "jobs" else "jobs?" + params.joinToString("&")
     }
 
-    private fun isProblem(status: Boolean, txtProblem: String? = null, imgProblem: Int? = null){
+    fun isProblem(status: Boolean, txtProblem: String? = null, imgProblem: Int? = null){
         if(status){
             jobList.clear()
 
             problemLayout.visibility = View.VISIBLE
             rv?.visibility = View.GONE
-            
+
             txtProblem?.let {  problemText.text = it  }
             imgProblem?.let { problemImage.setImageResource(it) }
         }else{

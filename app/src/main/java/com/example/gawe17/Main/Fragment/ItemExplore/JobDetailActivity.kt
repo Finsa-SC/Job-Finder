@@ -1,7 +1,9 @@
 package com.example.gawe17.Main.Fragment.ItemExplore
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,6 +22,7 @@ private lateinit var Location: TextView
 private lateinit var Experience: TextView
 private lateinit var AboutCompany: TextView
 private lateinit var AboutJob: TextView
+private lateinit var Backward: Button
 
 class JobDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +42,18 @@ class JobDetailActivity : AppCompatActivity() {
         Experience = findViewById(R.id.jobDetail_MinimunExperience)
 //        AboutCompany = findViewById(R.id.jobDetail_Company)
 //        AboutJob = findViewById(R.id.jobD)
-
+        Backward = findViewById(R.id.jobDetail_btnBackward)
 
         _jobId = intent.getIntExtra("JOB_ID", -1)
+
+
+        Backward.setOnClickListener { this.finish() }
+        loadJob(_jobId)
     }
 
-    private fun loadJob(jobId: Int){
+    private fun loadJob(jobId: Int?){
         Thread{
-            val (code, response) = ApiHelper.get("jobs/$_jobId")
+            val (code, response) = ApiHelper.get("jobs/$jobId")
             val jsonResponse = if(response!=null) JSONObject(response) else null
 
             runOnUiThread {
@@ -60,6 +67,6 @@ class JobDetailActivity : AppCompatActivity() {
                     Company.text = "Min. ${jsonData.getString("yearOfExperience")} years of experience"
                 }
             }
-        }
+        }.start()
     }
 }
