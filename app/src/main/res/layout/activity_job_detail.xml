@@ -8,71 +8,56 @@
     tools:context=".Main.Fragment.ItemExplore.JobDetailActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/jobDetail_btnBackward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:text="Back"
-            android:textColor="@color/black"
-            app:icon="@android:drawable/ic_menu_revert"
-            app:iconTint="@color/black"
-            app:iconGravity="start"/>
+        app:layout_constraintTop_toTopOf="@+id/jobDetail_btnBackward">
 
         <TextView
             android:id="@+id/jobDetail_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:text="Job Name"
             android:textSize="23sp"
-            android:textStyle="bold"
-            android:layout_marginTop="0dp"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/jobDetail_Company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Company"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/jobDetail_Location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location"
-            android:layout_marginTop="13dp"/>
+            android:layout_marginTop="13dp"
+            android:text="Location" />
+
         <TextView
             android:id="@+id/jobDetail_MinimunExperience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Minimum Experience"/>
+            android:text="Minimum Experience" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="18dp"
-            android:layout_height="wrap_content">
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/jobDetail_nvgAboutCompany"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="About Company"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/jobDetail_nvgAboutJob"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="About Job"
-                android:textStyle="bold"
-                android:layout_marginStart="17dp"/>
-        </LinearLayout>
     </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="64dp"
+        android:layout_height="77dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,12 +76,31 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_share"/>
+            android:src="@android:drawable/ic_menu_share"
+            android:background="@drawable/circle_button_active"
+            android:tint="@color/white"
+            android:layout_marginStart="10dp"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_upload"/>
+            android:src="@drawable/outline_bookmark_24"
+            android:background="@drawable/circle_button"
+            android:tint="#808080"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/jobDetail_btnBackward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="Back"
+        android:textColor="@color/black"
+        app:icon="@drawable/outline_arrow_back_24"
+        app:iconGravity="start"
+        app:iconTint="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

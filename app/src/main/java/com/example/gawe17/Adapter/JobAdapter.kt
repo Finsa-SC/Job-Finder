@@ -2,6 +2,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import com.example.gawe17.R
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,8 @@ import com.example.gawe17.Models.JobList
 class JobAdapter(
     private val jobs: List<JobList>,
     private val onItemClick: (JobList) -> Unit,
-    private val onButtonClick: (JobList) -> Unit
+    private val onButtonClick: (JobList) -> Unit,
+    private val onButtonMarkClick: (JobList) -> Unit
 ): RecyclerView.Adapter<JobAdapter.JobViewHolder>(){
 
     class JobViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -20,6 +22,7 @@ class JobAdapter(
         val experience: TextView = view.findViewById(R.id.txtExperience)
         val cardView: View = view.findViewById(R.id.itemcardJob)
         val btnApply: Button = view.findViewById(R.id.btnApply)
+        val btnMark: ImageButton = view.findViewById(R.id.exploreItemJob_btnMark)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
@@ -40,6 +43,9 @@ class JobAdapter(
         }
         holder.cardView.setOnClickListener {
             onItemClick(job)
+        }
+        holder.btnMark.setOnClickListener {
+            onButtonMarkClick(job)
         }
     }
 

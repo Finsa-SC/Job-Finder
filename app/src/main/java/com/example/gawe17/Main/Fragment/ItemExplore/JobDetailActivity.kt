@@ -13,7 +13,6 @@ import com.example.gawe17.R
 import org.json.JSONObject
 
 //Init
-private var _jobId: Int? = null
 
 //UI Component
 private lateinit var Title: TextView
@@ -44,7 +43,7 @@ class JobDetailActivity : AppCompatActivity() {
 //        AboutJob = findViewById(R.id.jobD)
         Backward = findViewById(R.id.jobDetail_btnBackward)
 
-        _jobId = intent.getIntExtra("JOB_ID", -1)
+        val _jobId = intent.getIntExtra("JOB_ID", -1)
 
 
         Backward.setOnClickListener { this.finish() }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itemcardJob"
     android:orientation="vertical"
     android:layout_marginTop="20dp"
@@ -51,15 +50,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Apply"/>
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnMark"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            app:icon="@android:drawable/btn_star_big_off"
-            android:text=""
-            android:padding="0dp"
-            app:iconPadding="0dp"
-            app:iconSize="24dp"/>
+
+        <ImageButton
+            android:id="@+id/exploreItemJob_btnMark"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/outline_bookmark_24"
+            android:background="@drawable/circle_button"
+            android:tint="#808080"/>
 
     </LinearLayout>
 
