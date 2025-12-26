@@ -70,7 +70,8 @@ class ExploreFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
@@ -96,6 +97,7 @@ class ExploreFragment : Fragment() {
                 }
             }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -141,6 +143,8 @@ class ExploreFragment : Fragment() {
             },{ job ->
                 applyJob(job.jobId)
                 loadJobs()
+            }, { job ->
+
             }
         )
         rv?.adapter = adapter
@@ -159,7 +163,7 @@ class ExploreFragment : Fragment() {
             activity?.runOnUiThread {
                 if(code == 200 && jsonResponse!= null){
                     val jsonData = jsonResponse.getJSONArray("data")
-                    
+
                     if(jsonData.length() <=0){
                         isProblem(
                             true,

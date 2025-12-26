@@ -8,7 +8,7 @@
     tools:context=".Main.Fragment.ItemExplore.JobDetailActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/ACTjobDetail_Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -57,7 +57,12 @@
         android:layout_height="77dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/ACTjobDetail_Header" />
+
+    <include
+        android:id="@+id/ACTjobDetail_problemWindow"
+        layout="@layout/problem_occurred_layout"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,14 +83,14 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_share"
             android:background="@drawable/circle_button_active"
-            android:tint="@color/white"
+            app:tint="@color/white"
             android:layout_marginStart="10dp"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/outline_bookmark_24"
             android:background="@drawable/circle_button"
-            android:tint="#808080"
+            app:tint="#808080"
             android:layout_marginStart="10dp"/>
     </LinearLayout>
 
