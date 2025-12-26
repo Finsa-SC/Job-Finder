@@ -14,58 +14,46 @@ import com.example.gawe17.Helper.ApiHelper
 import com.example.gawe17.Helper.ValidationHelper
 import com.example.gawe17.Login.LoginActivity
 import com.example.gawe17.R
+import com.example.gawe17.databinding.ActivityRegisterBinding
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var txtFullname: TextInputEditText
-    private lateinit var txtEmail: TextInputEditText
-    private lateinit var txtPhone: TextInputEditText
-    private lateinit var txtPassword: TextInputEditText
-    private lateinit var txtCPassword: TextInputEditText
-    private lateinit var btnRegister: Button
-    private lateinit var lblToLogin: TextView
+    private lateinit var binding: ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_register)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        txtFullname = findViewById(R.id.txtFullname)
-        txtEmail = findViewById(R.id.txtEmail)
-        txtPhone = findViewById(R.id.txtPhone)
-        txtPassword = findViewById(R.id.txtPassword)
-        txtCPassword = findViewById(R.id.txtCPassword)
-        btnRegister = findViewById(R.id.btnRegister)
-        lblToLogin = findViewById(R.id.lblToLogin)
+        binding.lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
 
-        lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
-
-        btnRegister.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             if (validation()) return@setOnClickListener
 
             val jsonData = JSONObject().apply {
-                put("fullname", txtFullname.text.toString().trim())
-                put("email", txtEmail.text.toString().trim())
-                put("phoneNumber", txtPhone.text.toString().trim())
-                put("password", txtPassword.text.toString().trim())
-                put("confirmPassword", txtCPassword.text.toString().trim())
+                put("fullname", binding.txtFullname.text.toString().trim())
+                put("email", binding.txtEmail.text.toString().trim())
+                put("phoneNumber", binding.txtPhone.text.toString().trim())
+                put("password", binding.txtPassword.text.toString().trim())
+                put("confirmPassword", binding.txtCPassword.text.toString().trim())
             }
             Thread{
                 val (responseCode ,responseText) = ApiHelper.post("register", jsonData)
                 runOnUiThread {
-                    val jsonResponse = JSONObject(responseText)
+                    val jsonResponse = if(responseText!=null) JSONObject(responseText) else null
 
                     if (responseCode == 200 && responseText!=null){
                         Toast.makeText(this, "Register Successfully!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         this.finish()
                     }
-                    else if(responseText!=null){
+                    else if(jsonResponse!=null){
                         Toast.makeText(this, jsonResponse.getString("message"), Toast.LENGTH_SHORT).show()
                     }
                     else{
@@ -82,14 +70,14 @@ class RegisterActivity : AppCompatActivity() {
         if (ValidationHelper.isNull(root, this)) return true
 
 //        email format
-        val emailText = txtEmail.text.toString()
+        val emailText = binding.txtEmail.text.toString()
         if(!emailText.toString().endsWith("@gmail.com")){
             Toast.makeText(this, "Email not Valid!!", Toast.LENGTH_SHORT).show()
             return true
         }
 
 //        phone number
-        var phone = txtPhone.text.toString()
+        var phone = binding.txtPhone.text.toString()
         if(phone.contains("+62")) phone = phone.replace("+62", "0")
         if(phone.contains(" ")) phone = phone.replace(" ", "")
         if(!phone.startsWith("08")){
@@ -102,7 +90,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
 //        password weakness
-        val password = txtPassword.text.toString()
+        val password = binding.txtPassword.text.toString()
         if(password.length<8){
             Toast.makeText(this, "Please try more long password!!", Toast.LENGTH_SHORT).show()
             return true

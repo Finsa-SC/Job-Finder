@@ -17,32 +17,28 @@ import com.example.gawe17.Main.MainActivity
 import com.example.gawe17.Models.UserSession
 import com.example.gawe17.R
 import com.example.gawe17.Register.RegisterActivity
+import com.example.gawe17.databinding.ActivityLoginBinding
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var txtEmail: TextInputEditText
-    private lateinit var txtPassword: TextInputEditText
-    private lateinit var btnLogin: Button
-    private lateinit var lblToRegister: TextView
+
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        txtEmail = findViewById(R.id.txtEmail)
-        txtPassword = findViewById(R.id.txtPassword)
-        btnLogin = findViewById(R.id.btnLogin)
-        lblToRegister = findViewById(R.id.lblToRegister)
 
-        lblToRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+        binding.lblToRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
 
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             val main = findViewById<ViewGroup>(R.id.main)
             if(ValidationHelper.isNull(main, this)) return@setOnClickListener
 
@@ -52,8 +48,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun UserLogin(){
         val jsonData = JSONObject().apply {
-            put("email", txtEmail.text.toString())
-            put("password", txtPassword.text.toString())
+            put("email", binding.txtEmail.text.toString())
+            put("password", binding.txtPassword.text.toString())
         }
 
         Thread{
