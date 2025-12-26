@@ -15,13 +15,13 @@
         android:theme="@style/Theme.Gawe17"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Main.Fragment.ItemExplore.JobDetailActivity"
+            android:name=".explore.detail.JobDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Register.RegisterActivity"
+            android:name=".auth.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Main.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

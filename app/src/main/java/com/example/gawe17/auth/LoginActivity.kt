@@ -1,24 +1,20 @@
-package com.example.gawe17.Login
+package com.example.gawe17.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.gawe17.Helper.ApiHelper
-import com.example.gawe17.Helper.SessionManager
-import com.example.gawe17.Helper.ValidationHelper
-import com.example.gawe17.Main.MainActivity
-import com.example.gawe17.Models.UserSession
+import com.example.gawe17.MainActivity
+import com.example.gawe17.model.UserSession
 import com.example.gawe17.R
-import com.example.gawe17.Register.RegisterActivity
+import com.example.gawe17.core.session.SessionManager
+import com.example.gawe17.core.util.ValidationHelper
+import com.example.gawe17.core.network.ApiHelper
 import com.example.gawe17.databinding.ActivityLoginBinding
-import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
@@ -36,7 +32,12 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        binding.lblToRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+        binding.lblToRegister.setOnClickListener { startActivity(
+            Intent(
+                this,
+                RegisterActivity::class.java
+            )
+        ) }
 
         binding.btnLogin.setOnClickListener {
             val main = findViewById<ViewGroup>(R.id.main)

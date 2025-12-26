@@ -1,21 +1,17 @@
-package com.example.gawe17.Register
+package com.example.gawe17.auth
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.gawe17.Helper.ApiHelper
-import com.example.gawe17.Helper.ValidationHelper
-import com.example.gawe17.Login.LoginActivity
 import com.example.gawe17.R
+import com.example.gawe17.core.util.ValidationHelper
+import com.example.gawe17.core.network.ApiHelper
 import com.example.gawe17.databinding.ActivityRegisterBinding
-import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity() {
@@ -31,7 +27,12 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
-        binding.lblToLogin.setOnClickListener { startActivity(Intent(this, LoginActivity::class.java)) }
+        binding.lblToLogin.setOnClickListener { startActivity(
+            Intent(
+                this,
+                LoginActivity::class.java
+            )
+        ) }
 
         binding.btnRegister.setOnClickListener {
             if (validation()) return@setOnClickListener

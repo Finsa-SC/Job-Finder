@@ -1,4 +1,4 @@
-package com.example.gawe17.Helper
+package com.example.gawe17.core.network
 
 import org.json.JSONObject
 import java.io.IOException

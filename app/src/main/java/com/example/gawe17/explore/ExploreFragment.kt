@@ -1,7 +1,5 @@
-package com.example.gawe17.Main.Fragment
+package com.example.gawe17.explore
 
-import JobAdapter
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,42 +10,30 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gawe17.Helper.ApiHelper
-import com.example.gawe17.Helper.UIHelper
-import com.example.gawe17.Main.Fragment.ItemExplore.JobDetailActivity
-import com.example.gawe17.Models.JobList
+import com.example.gawe17.core.util.UIHelper
+import com.example.gawe17.explore.detail.JobDetailActivity
+import com.example.gawe17.model.JobList
 import com.example.gawe17.R
-import com.google.android.material.textfield.TextInputEditText
+import com.example.gawe17.databinding.FragmentExploreBinding
+import com.example.gawe17.core.network.ApiHelper
 import org.json.JSONObject
 import java.net.URLEncoder
-import kotlin.concurrent.thread
-import kotlin.text.clear
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ExploreFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ExploreFragment : Fragment() {
     private lateinit var problemLayout: View
     private var rv: RecyclerView? = null
 
+
+    private var txtLocation: String? = null
     //filter
-    private var txtSearch: TextInputEditText? = null
-    private var txtlocation: String? = null
-    private lateinit var btnAll: Button
-    private lateinit var btnRemote: Button
-    private lateinit var btnOnsite: Button
+    var _binding: FragmentExploreBinding? = null
+    val binding get() = _binding!!
 
     //problem
     private lateinit var problemText: TextView
@@ -73,21 +59,12 @@ class ExploreFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+    ): View {
+        _binding = FragmentExploreBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ExploreFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ExploreFragment().apply {
@@ -102,35 +79,33 @@ class ExploreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         problemLayout = view.findViewById(R.id.includeProblem)
+
 //        filter
-        txtSearch = view.findViewById(R.id.txtSearch)
-        btnAll = view.findViewById(R.id.btnAll)
-        btnRemote = view.findViewById(R.id.btnRemote)
-        btnOnsite = view.findViewById(R.id.btnOnsite)
-        btnAll.setOnClickListener {
-            txtlocation = null
-            activeButton(btnAll)
+        binding.btnAll.setOnClickListener {
+            txtLocation = null
+            activeButton(binding.btnAll)
             loadJobs()
         }
-        btnRemote.setOnClickListener {
-            txtlocation = "Remote"
-            activeButton(btnRemote)
+        binding.btnRemote.setOnClickListener {
+            txtLocation = "Remote"
+            activeButton(binding.btnRemote)
             loadJobs()
         }
-        btnOnsite.setOnClickListener {
-            txtlocation = "Onsite"
-            activeButton(btnOnsite)
+        binding.btnOnsite.setOnClickListener {
+            txtLocation = "Onsite"
+            activeButton(binding.btnOnsite)
             loadJobs()
         }
-        txtSearch?.setOnEditorActionListener { v, actionId, event ->
+        binding.txtSearch?.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
                 loadJobs()
                 true
             }else false
         }
-//        pribblem
+//        problem
         problemText = view.findViewById(R.id.txtProblem)
         problemImage = view.findViewById(R.id.imgProblem)
+
 //        core
         rv = view.findViewById(R.id.rvJob)
 
@@ -151,12 +126,12 @@ class ExploreFragment : Fragment() {
         rv?.layoutManager = LinearLayoutManager(requireContext())
 
         loadJobs()
-        activeButton(btnAll)
+        activeButton(binding.btnAll)
     }
 
     private fun loadJobs(){
         Thread{
-            val (code, response) = ApiHelper.get(endpointBuilder(search = txtSearch?.text?.toString(), location = txtlocation))
+            val (code, response) = ApiHelper.get(endpointBuilder(search = binding.txtSearch?.text?.toString(), location = txtLocation))
 
             val jsonResponse = if(!response.isNullOrBlank()) JSONObject(response) else null
 
@@ -245,9 +220,9 @@ class ExploreFragment : Fragment() {
     }
 
     private fun activeButton(btn: Button){
-        btnAll.isSelected = false
-        btnOnsite.isSelected = false
-        btnRemote.isSelected = false
+        binding.btnAll.isSelected = false
+        binding.btnOnsite.isSelected = false
+        binding.btnRemote.isSelected = false
 
         btn.isSelected = true
     }

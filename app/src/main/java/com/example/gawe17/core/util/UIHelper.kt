@@ -1,8 +1,7 @@
-package com.example.gawe17.Helper
+package com.example.gawe17.core.util
 
 import android.app.Dialog
 import android.content.Context
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.example.gawe17.R

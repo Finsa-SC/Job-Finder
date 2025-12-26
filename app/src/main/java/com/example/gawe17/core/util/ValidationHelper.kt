@@ -1,4 +1,4 @@
-package com.example.gawe17.Helper
+package com.example.gawe17.core.util
 
 import android.content.Context
 import android.view.View

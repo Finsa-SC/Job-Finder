@@ -1,4 +1,4 @@
-package com.example.gawe17.Models
+package com.example.gawe17.model
 
 data class JobList(
     var jobId: Int,

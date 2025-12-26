@@ -1,4 +1,4 @@
-package com.example.gawe17.Main.Fragment.ItemExplore.JobDetailItem
+package com.example.gawe17.explore.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

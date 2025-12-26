@@ -1,13 +1,10 @@
+package com.example.gawe17.explore
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import com.example.gawe17.R
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gawe17.Models.JobList
 import com.example.gawe17.databinding.ExploreItemJobBinding
+import com.example.gawe17.model.JobList
 
 class JobAdapter(
     private val jobs: List<JobList>,
@@ -50,4 +47,3 @@ class JobAdapter(
 
     override fun getItemCount(): Int = jobs.size
 }
-
