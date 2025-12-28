@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         app:tabIndicatorAnimationDuration="1000"
         app:tabIndicatorColor="#805673"
+        app:tabSelectedTextColor="#805673"
         app:tabIndicatorHeight="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

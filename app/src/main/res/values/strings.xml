@@ -2,4 +2,13 @@
     <string name="app_name">Gawe-An</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="job_name">Job Name</string>
+    <string name="company">Company</string>
+    <string name="location">Location</string>
+    <string name="minimum_experience">Minimum Experience</string>
+    <string name="back">Back</string>
+    <string name="apply">Apply</string>
+    <string name="button_active">Button Active</string>
+    <string name="mark_button">Mark Button</string>
+    <string name="key_responsibilities">Key Responsibilities</string>
 </resources>

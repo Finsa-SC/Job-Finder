@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Main.Fragment.ItemExplore.JobDetailActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/ACTjobDetail_Header"
@@ -21,8 +21,7 @@
             android:id="@+id/jobDetail_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:text="Job Name"
+            android:text="@string/job_name"
             android:textSize="23sp"
             android:textStyle="bold" />
 
@@ -30,7 +29,7 @@
             android:id="@+id/jobDetail_Company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Company"
+            android:text="@string/company"
             android:textSize="16sp" />
 
         <TextView
@@ -38,26 +37,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:text="Location" />
+            android:text="@string/location" />
 
         <TextView
             android:id="@+id/jobDetail_MinimunExperience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Minimum Experience" />
+            android:text="@string/minimum_experience" />
 
         <com.google.android.material.tabs.TabLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tabIndicatorHeight="3dp"
+            app:tabSelectedTextColor="#803873"
+            app:tabTextColor="@color/black"
+            app:tabIndicatorColor="#803688"
+            app:tabIndicatorAnimationDuration="1000"
+            app:tabGravity="start"/>
     </LinearLayout>
 
+
     <androidx.viewpager2.widget.ViewPager2
-        android:layout_width="64dp"
-        android:layout_height="77dp"
+        android:id="@+id/viewPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ACTjobDetail_Header" />
+        app:layout_constraintTop_toBottomOf="@id/ACTjobDetail_Header" />
 
     <include
         android:id="@+id/ACTjobDetail_problemWindow"
@@ -77,12 +88,13 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Apply"/>
+            android:text="@string/apply"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_share"
             android:background="@drawable/circle_button_active"
+            android:contentDescription="@string/button_active"
             app:tint="@color/white"
             android:layout_marginStart="10dp"/>
         <ImageButton
@@ -90,6 +102,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/outline_bookmark_24"
             android:background="@drawable/circle_button"
+            android:contentDescription="@string/mark_button"
             app:tint="#808080"
             android:layout_marginStart="10dp"/>
     </LinearLayout>
@@ -99,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        android:text="Back"
+        android:text="@string/back"
         android:textColor="@color/black"
         app:icon="@drawable/outline_arrow_back_24"
         app:iconGravity="start"

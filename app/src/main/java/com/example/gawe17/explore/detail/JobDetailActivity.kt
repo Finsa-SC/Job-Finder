@@ -12,9 +12,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.gawe17.R
 import com.example.gawe17.core.network.ApiHelper
 import com.example.gawe17.databinding.ActivityJobDetailBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import org.json.JSONObject
 
 class JobDetailActivity : AppCompatActivity() {
+    var jsonJob: JSONObject? = null
 
     private lateinit var binding: ActivityJobDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,22 @@ class JobDetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+//        navigation
+        val tabLayout = binding.tabLayout
+        val viewPager = binding.viewPage
+
+        val adapter = MyPagerAdapterDetail(this)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) {tab, position ->
+            tab.text = when(position){
+                0 -> "About Company"
+                1 -> "About Job"
+                else -> ""
+            }
+        }.attach()
+
 
         val _jobId = intent.getIntExtra("JOB_ID", -1)
 
@@ -43,6 +61,7 @@ class JobDetailActivity : AppCompatActivity() {
                 if(code==200 && jsonResponse!=null){
                     problemWindow(false)
                     val jsonData = jsonResponse.getJSONObject("data")
+                    jsonJob = jsonData
                     val jsonCompany = jsonData.getJSONObject("company")
 
                     binding.jobDetailTitle.text = jsonData.getString("name")
@@ -69,16 +88,16 @@ class JobDetailActivity : AppCompatActivity() {
 
     private fun problemWindow(status: Boolean, message: String? = null, image: Int? = null){
         val header = findViewById<LinearLayout>(R.id.ACTjobDetail_Header)
-        val erorWindow = findViewById<View>(R.id.ACTjobDetail_problemWindow)
+        val errorWindow = findViewById<View>(R.id.ACTjobDetail_problemWindow)
         if(status){
             header.visibility = View.GONE
-            erorWindow.visibility = View.VISIBLE
+            errorWindow.visibility = View.VISIBLE
 
             message?.let{findViewById<TextView>(R.id.txtProblem).text = it}
             image?.let{findViewById<ImageView>(R.id.imgProblem).setImageResource(it)}
         }else{
             header.visibility = View.VISIBLE
-            erorWindow.visibility = View.GONE
+            errorWindow.visibility = View.GONE
         }
     }
 
