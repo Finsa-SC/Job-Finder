@@ -10,6 +10,7 @@ import com.example.gawe17.databinding.ActivityMainBinding
 import com.example.gawe17.explore.ExploreFragment
 import com.example.gawe17.profile.ProfileFragment
 import com.example.gawe17.myjob.MyJobFragment
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,17 +26,21 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        if(savedInstanceState ==null){loadFragment(ExploreFragment())}
+//        navigation
+        val viewPage = binding.viewPage
+        val tabLayout = binding.tabLayout
 
+        val adapter = MyPagerAdapter(this)
+        viewPage.adapter = adapter
 
-        binding.nvgExplore.setOnClickListener { loadFragment(ExploreFragment()) }
-        binding.nvgMyJob.setOnClickListener { loadFragment(MyJobFragment()) }
-        binding.nvgProfile.setOnClickListener { loadFragment(ProfileFragment()) }
+        TabLayoutMediator(tabLayout, viewPage) {tab, position ->
+            tab.text = when(position){
+                0 -> "Explore"
+                1 -> "My Job"
+                2 -> "Profile"
+                else -> ""
+            }
+        }.attach()
     }
 
-    private fun loadFragment(fragment: Fragment){
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
-    }
 }
