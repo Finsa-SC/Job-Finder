@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -109,7 +110,7 @@ class JobDetailActivity : AppCompatActivity() {
             val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
             runOnUiThread {
                 if(code==200){
-                    UIHelper.showDialog(this, "Success Applied a Job!")
+                    UIHelper.showDialog(this, "Success Applied a Job!", R.drawable.furina_instruction)
                 }
             }
         }.start()

@@ -7,5 +7,7 @@ data class JobList(
     var jobLocationType: String,
     var jobLocationRegion: String,
     var jobExperience: String,
-    var quota: Int
+    var quota: Int,
+    var isMarked: Boolean = false,
+    var isApplied: Boolean = false
 )

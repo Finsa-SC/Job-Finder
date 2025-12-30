@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gawe17.core.util.UIHelper
@@ -18,6 +19,7 @@ import com.example.gawe17.model.JobList
 import com.example.gawe17.R
 import com.example.gawe17.databinding.FragmentExploreBinding
 import com.example.gawe17.core.network.ApiHelper
+import com.example.gawe17.model.JobCardMode
 import org.json.JSONObject
 import java.net.URLEncoder
 
@@ -41,6 +43,8 @@ class ExploreFragment : Fragment() {
 
     //list
     private var jobList = mutableListOf<JobList>()
+    private var appliedIds = mutableListOf<Int>()
+    private var favoriteIds = mutableListOf<Int>()
     private lateinit var adapter: JobAdapter
 
 
@@ -107,19 +111,35 @@ class ExploreFragment : Fragment() {
         problemImage = view.findViewById(R.id.imgProblem)
 
 //        core
-        rv = view.findViewById(R.id.rvJob)
+        val rv = binding.rvJob
 
         adapter = JobAdapter(
-            jobList,
-            onItemClick = { job ->
+            jobs = jobList,
+            mode = JobCardMode.Explore,
+            onApply = { job ->
+                if(job.jobId !in appliedIds){
+                    applyJob(jobId = job.jobId  )
+                    appliedIds.add(job.jobId)
+                }else{
+                    UIHelper.showDialog(requireContext(), "You Are Currently Applying This Job Before", R.drawable.furina_intimidating)
+                }
+                job.isApplied=!job.isApplied
+                adapter.notifyDataSetChanged()
+            },
+            onMark = {job ->
+                if(job.jobId in favoriteIds){
+                    favoriteIds.remove(job.jobId)
+                    job.isMarked = false
+                }else{
+                    favoriteIds.add(job.jobId)
+                    job.isMarked=true
+                }
+                adapter.notifyItemChanged(jobList.indexOf(job))
+            },
+            onCard = {job ->
                 val intent = Intent(requireContext(), JobDetailActivity::class.java)
                 intent.putExtra("JOB_ID", job.jobId)
                 startActivity(intent)
-            },{ job ->
-                applyJob(job.jobId)
-                loadJobs()
-            }, { job ->
-
             }
         )
         rv?.adapter = adapter
@@ -152,14 +172,17 @@ class ExploreFragment : Fragment() {
                             val json = jsonData.getJSONObject(i)
                             val company = json.getJSONObject("company")
                             if(json.getInt("quota") <= 0) continue
+                            val id = json.getInt("id")
                             jobList.add(JobList(
-                                jobId = json.getInt("id"),
+                                jobId = id,
                                 jobName = json.getString("name"),
                                 jobCompanyName = company.getString("name"),
                                 jobLocationType = json.getString("locationType"),
                                 jobLocationRegion = json.getString("locationRegion"),
                                 jobExperience = json.getString("yearOfExperience"),
-                                quota = json.getInt("quota")
+                                quota = json.getInt("quota"),
+                                isApplied = id in appliedIds,
+                                isMarked = id in favoriteIds
                             ))
                         }
                     }
@@ -181,12 +204,12 @@ class ExploreFragment : Fragment() {
             }
         }.start()
     }
-    public fun applyJob(jobId: Int){
+    fun applyJob(jobId: Int){
         Thread {
             val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
             activity?.runOnUiThread {
                 if(code==200){
-                    UIHelper.showDialog(requireContext(), "Success Applied a Job!")
+                    UIHelper.showDialog(requireContext(), "Success Applied a Job!", R.drawable.furina_instruction)
                 }
             }
         }.start()
