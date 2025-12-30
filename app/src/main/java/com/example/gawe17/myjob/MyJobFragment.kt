@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.gawe17.R
 import com.example.gawe17.databinding.FragmentMyJobBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -44,6 +45,25 @@ class MyJobFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val viewPage = binding.viewPage
+        val tabLayout = binding.tabLayout
+
+        val adapter = MyViewAdapterJob(this)
+        viewPage.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPage) {tab, position ->
+            tab.text = when(position){
+                0->"Saved Jobs"
+                1->"Application List"
+                else->"Saved Jobs"
+            }
+        }.attach()
+
     }
 
     override fun onResume() {
