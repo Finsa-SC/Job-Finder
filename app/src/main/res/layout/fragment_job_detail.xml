@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fillViewport="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
+<!--        responsibilities-->
         <TextView
             android:id="@+id/txvResponsibilities"
             android:layout_width="wrap_content"
@@ -22,9 +23,9 @@
             android:id="@+id/txtResponsibilities"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="Responsibilities"/>
 
+<!--        requirement-->
         <TextView
             android:id="@+id/txvRequirement"
             android:layout_width="wrap_content"
@@ -37,8 +38,22 @@
             android:id="@+id/txtRequirement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="Required Qualifications"/>
+
+<!--        softskill-->
+        <TextView
+            android:id="@+id/txvSoftskill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/soft_skills"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/txtSoftskill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/soft_skills"/>
     </LinearLayout>
 
 </ScrollView>

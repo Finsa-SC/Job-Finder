@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
-    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -40,7 +39,7 @@
             android:text="@string/location" />
 
         <TextView
-            android:id="@+id/jobDetail_MinimunExperience"
+            android:id="@+id/jobDetail_MinimumExperience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/minimum_experience" />
@@ -64,11 +63,12 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ACTjobDetail_Header" />
+        app:layout_constraintTop_toBottomOf="@id/ACTjobDetail_Header"
+        app:layout_constraintBottom_toTopOf="@id/action_bar"/>
 
     <include
         android:id="@+id/ACTjobDetail_problemWindow"
@@ -76,6 +76,7 @@
         android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -85,6 +86,7 @@
         android:gravity="end">
 
         <Button
+            android:id="@+id/btnApply"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"

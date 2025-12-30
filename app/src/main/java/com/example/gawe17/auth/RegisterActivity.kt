@@ -67,7 +67,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun validation(): Boolean{
 //        Emty Blok
-        var root = findViewById<ViewGroup>(R.id.main)
+        val root = findViewById<ViewGroup>(R.id.main)
         if (ValidationHelper.isNull(root, this)) return true
 
 //        email format

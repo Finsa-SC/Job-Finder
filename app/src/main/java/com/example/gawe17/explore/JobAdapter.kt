@@ -1,5 +1,6 @@
 package com.example.gawe17.explore
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ class JobAdapter(
         return JobViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
         val job = jobs[position]
         with(holder.binding){

@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.gawe17.R
 import com.example.gawe17.core.network.ApiHelper
+import com.example.gawe17.core.util.UIHelper
 import com.example.gawe17.databinding.ActivityJobDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import org.json.JSONObject
@@ -50,6 +51,8 @@ class JobDetailActivity : AppCompatActivity() {
 
         binding.jobDetailBtnBackward.setOnClickListener { this.finish() }
         loadJob(_jobId)
+
+        binding.btnApply.setOnClickListener { applyJob(_jobId) }
     }
 
     private fun loadJob(jobId: Int?){
@@ -67,7 +70,7 @@ class JobDetailActivity : AppCompatActivity() {
                     binding.jobDetailTitle.text = jsonData.getString("name")
                     binding.jobDetailCompany.text = jsonCompany.getString("name")
                     binding.jobDetailLocation.text = "${jsonData.getString("locationType")}(${jsonData.getString("locationRegion")})"
-                    binding.jobDetailMinimunExperience.text = "Min. ${jsonData.getString("yearOfExperience")} years of experience"
+                    binding.jobDetailMinimumExperience.text = "Min. ${jsonData.getString("yearOfExperience")} years of experience"
                 }
                 else if(jsonResponse!=null){
                     problemWindow(
@@ -101,4 +104,14 @@ class JobDetailActivity : AppCompatActivity() {
         }
     }
 
+    public fun applyJob(jobId: Int){
+        Thread {
+            val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
+            runOnUiThread {
+                if(code==200){
+                    UIHelper.showDialog(this, "Success Applied a Job!")
+                }
+            }
+        }.start()
+    }
 }

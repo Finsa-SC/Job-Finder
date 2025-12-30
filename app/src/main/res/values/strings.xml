@@ -11,4 +11,7 @@
     <string name="button_active">Button Active</string>
     <string name="mark_button">Mark Button</string>
     <string name="key_responsibilities">Key Responsibilities</string>
+    <string name="soft_skills">Soft Skills</string>
+    <string name="company_overview">Company Overview</string>
+    <string name="my_job">My Job</string>
 </resources>

@@ -181,7 +181,7 @@ class ExploreFragment : Fragment() {
             }
         }.start()
     }
-    private fun applyJob(jobId: Int){
+    public fun applyJob(jobId: Int){
         Thread {
             val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
             activity?.runOnUiThread {
@@ -190,11 +190,10 @@ class ExploreFragment : Fragment() {
                 }
             }
         }.start()
-
     }
 
     private fun endpointBuilder(search: String? = null, location: String? = null): String{
-        var params = mutableListOf<String?>()
+        val params = mutableListOf<String?>()
         if(!search.isNullOrBlank()){
             params.add("search=${URLEncoder.encode(search, "UTF-8")}")
         }

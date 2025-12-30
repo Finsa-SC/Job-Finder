@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.example.gawe17.R
 
 object UIHelper {
-    public fun showDialog(context: Context, message: String){
+    fun showDialog(context: Context, message: String){
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_notification)
         dialog.show()
