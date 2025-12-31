@@ -4,57 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvJob"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/txvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Job Name"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txvCompany"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Company Name"
-            android:textSize="17sp"/>
-
-        <TextView
-            android:id="@+id/txvLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Location and Region"
-            android:textSize="14sp"/>
-
-        <TextView
-            android:id="@+id/txtExperience"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Experience"
-            android:textSize="14sp"/>
-
-        <LinearLayout
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btnApply"
-                android:layout_width="0dp"
-                android:layout_height="40sp"
-                android:layout_weight="1"
-                android:text="Waiting for Confirmation"/>
-
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="match_parent"/>
+    <include
+        android:visibility="gone"
+        android:id="@+id/problemLayout"
+        layout="@layout/problem_occurred_layout"/>
 
 </FrameLayout>
