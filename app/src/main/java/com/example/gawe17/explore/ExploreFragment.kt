@@ -44,7 +44,7 @@ class ExploreFragment : Fragment() {
 
     //list
     private var jobList = mutableListOf<JobList>()
-    private val appliedIds get() = (requireActivity() as MainActivity).appliedIds
+    private val appliedIds = mutableSetOf<Int>()
     private val favoriteIds get() = (requireActivity() as MainActivity).favoriteIds
     private lateinit var adapter: JobAdapter
 
@@ -119,12 +119,7 @@ class ExploreFragment : Fragment() {
             mode = JobCardMode.Explore,
             favoriteIds = favoriteIds,
             onApply = { job ->
-                if(job.jobId !in appliedIds){
-                    applyJob(jobId = job.jobId  )
-                    appliedIds.add(job.jobId)
-                }else{
-                    UIHelper.showDialog(requireContext(), "You Are Currently Applying This Job Before", R.drawable.furina_intimidating)
-                }
+                applyJob(job.jobId)
                 job.isApplied=!job.isApplied
                 adapter.notifyDataSetChanged()
             },
@@ -149,6 +144,7 @@ class ExploreFragment : Fragment() {
 
         loadJobs()
         activeButton(binding.btnAll)
+        appliedJob()
     }
 
     override fun onResume() {
@@ -212,11 +208,31 @@ class ExploreFragment : Fragment() {
         }.start()
     }
     fun applyJob(jobId: Int){
+        if(jobId in appliedIds){
+            UIHelper.showDialog(requireContext(), "You Are Currently Applying This Job Before", R.drawable.furina_intimidating)
+            return
+        }
         Thread {
             val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
             activity?.runOnUiThread {
                 if(code==200){
                     UIHelper.showDialog(requireContext(), "Success Applied a Job!", R.drawable.furina_instruction)
+                    appliedIds.add(jobId)
+                }
+            }
+        }.start()
+    }
+    private fun appliedJob(){
+        Thread{
+            val (code, response) = ApiHelper.get("job-applications")
+            val jsonResponse = if(!response.isNullOrBlank()) JSONObject(response) else null
+            activity?.runOnUiThread {
+                if(code==200&&jsonResponse!=null){
+                    val jsonData = jsonResponse.getJSONArray("data")
+                    for(i in 0 until jsonData.length()){
+                        val json = jsonData.getJSONObject(i).getJSONObject("job")
+                        appliedIds.add(json.getInt("id"))
+                    }
                 }
             }
         }.start()

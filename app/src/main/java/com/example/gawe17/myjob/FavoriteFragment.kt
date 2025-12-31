@@ -179,14 +179,13 @@ class FavoriteFragment : Fragment() {
             activity?.runOnUiThread {
                 if (code == 200 && jsonResponse != null) {
                     val jsonData = jsonResponse.getJSONArray("data")
+                    appliedIds.clear()
                     for (i in 0 until jsonData.length()) {
-                        val json = jsonData.getJSONObject(i)
-                        val ids = json.getInt("id")
-                        favoriteIds.add(ids)
+                        val json = jsonData.getJSONObject(i).getJSONObject("job")
+                        appliedIds.add(json.getInt("id"))
                     }
-
                 }
             }
-        }
+        }.start()
     }
 }
