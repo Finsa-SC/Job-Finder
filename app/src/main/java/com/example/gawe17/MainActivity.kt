@@ -8,11 +8,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.gawe17.databinding.ActivityMainBinding
 import com.example.gawe17.explore.ExploreFragment
+import com.example.gawe17.model.JobList
 import com.example.gawe17.profile.ProfileFragment
 import com.example.gawe17.myjob.MyJobFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
+    val appliedIds = mutableSetOf<Int>()
+    val favoriteIds = mutableSetOf<Int>()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gawe17.MainActivity
 import com.example.gawe17.core.util.UIHelper
 import com.example.gawe17.explore.detail.JobDetailActivity
 import com.example.gawe17.model.JobList
@@ -43,8 +44,8 @@ class ExploreFragment : Fragment() {
 
     //list
     private var jobList = mutableListOf<JobList>()
-    private var appliedIds = mutableListOf<Int>()
-    private var favoriteIds = mutableListOf<Int>()
+    private val appliedIds get() = (requireActivity() as MainActivity).appliedIds
+    private val favoriteIds get() = (requireActivity() as MainActivity).favoriteIds
     private lateinit var adapter: JobAdapter
 
 
@@ -116,6 +117,7 @@ class ExploreFragment : Fragment() {
         adapter = JobAdapter(
             jobs = jobList,
             mode = JobCardMode.Explore,
+            favoriteIds = favoriteIds,
             onApply = { job ->
                 if(job.jobId !in appliedIds){
                     applyJob(jobId = job.jobId  )
@@ -142,11 +144,16 @@ class ExploreFragment : Fragment() {
                 startActivity(intent)
             }
         )
-        rv?.adapter = adapter
-        rv?.layoutManager = LinearLayoutManager(requireContext())
+        rv.adapter = adapter
+        rv.layoutManager = LinearLayoutManager(requireContext())
 
         loadJobs()
         activeButton(binding.btnAll)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadJobs()
     }
 
     private fun loadJobs(){

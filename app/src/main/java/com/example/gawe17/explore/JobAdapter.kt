@@ -15,6 +15,7 @@ import com.example.gawe17.model.JobList
 class JobAdapter(
     private val jobs: List<JobList>,
     private val mode: JobCardMode,
+    private val favoriteIds: Set<Int>,
     private val onApply: (JobList) -> Unit,
     private val onMark: (JobList) -> Unit,
     private val onCard: (JobList) ->Unit,
@@ -43,7 +44,8 @@ class JobAdapter(
                 holder.binding.btnApply.text = "Apply"
                 holder.binding.exploreItemJobBtnMark.isVisible = true
                 holder.binding.exploreItemJobBtnMark.setImageResource(R.drawable.outline_bookmark_24)
-                if(job.isMarked){
+                val isMarked = job.jobId in favoriteIds
+                if(isMarked){
                     holder.binding.exploreItemJobBtnMark.setBackgroundResource(R.drawable.circle_button_active)
                     holder.binding.exploreItemJobBtnMark.setColorFilter(Color.WHITE)
                 }else{
@@ -56,6 +58,9 @@ class JobAdapter(
                 holder.binding.btnApply.text = "Apply"
                 holder.binding.exploreItemJobBtnMark.isVisible = true
                 holder.binding.exploreItemJobBtnMark.setImageResource(R.drawable.outline_bookmark_remove_24)
+                holder.binding.exploreItemJobBtnMark.setBackgroundResource(R.drawable.circle_button_active)
+                holder.binding.exploreItemJobBtnMark.setColorFilter(Color.WHITE)
+
             }
             JobCardMode.Applied -> {
                 holder.binding.btnApply.isVisible = true

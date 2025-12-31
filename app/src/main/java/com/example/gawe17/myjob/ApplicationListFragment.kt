@@ -64,9 +64,11 @@ class ApplicationListFragment : Fragment() {
 
         rv = binding.rvJob
 
+        val favoriteIds = emptySet<Int>()
         adapter = JobAdapter(
             jobs = jobList,
             mode = JobCardMode.Applied,
+            favoriteIds = favoriteIds,
             onApply = {},
             onMark = {},
             onCard = {}
