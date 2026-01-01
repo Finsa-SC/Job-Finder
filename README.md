@@ -81,6 +81,17 @@ This application consumes a REST API provided by the backend team.
 
 ---
 
+## 🔗 Related Repository (Backend API)
+
+This Android application requires a backend REST API to function properly.
+
+Backend Repository:
+👉 https://github.com/Finsa-SC/Job_Finder_API
+
+Please follow the setup instructions in the backend repository before running this Android application.
+
+---
+
 ## ⚠️ Technical Constraints
 - No additional dependencies were added beyond the default Android project setup
 - Application follows provided wireframe with additional UI improvements that do not affect the main flow
@@ -111,6 +122,21 @@ In addition to the required features, several UI/UX improvements were implemente
 - Consistent visual feedback for user interactions
 
 All enhancements follow the original wireframe intent and do not introduce additional dependencies or alter the core business logic.
+
+---
+
+## 🚀 How to Run the Project
+
+### 1️⃣ Run Backend API
+Make sure the backend API is running before launching the Android app.
+
+See backend setup instructions:
+👉 https://github.com/Finsa-SC/Job_Finder_API
+
+### 2️⃣ Run Android Application
+- Open project in Android Studio
+- Sync Gradle
+- Run on emulator or physical device
 
 ---
 
