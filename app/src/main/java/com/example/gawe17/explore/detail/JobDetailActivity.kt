@@ -48,7 +48,7 @@ class JobDetailActivity : AppCompatActivity() {
         }.attach()
 
 
-        val _jobId = intent.getIntExtra("JOB_ID", -1)
+        val _jobId = intent.get("JOB_ID", -1)
 
         binding.jobDetailBtnBackward.setOnClickListener { this.finish() }
         loadJob(_jobId)

@@ -1,5 +1,6 @@
 package com.example.gawe17.myjob
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.example.gawe17.core.network.ApiHelper
 import com.example.gawe17.core.util.UIHelper
 import com.example.gawe17.databinding.FragmentFavoriteBinding
 import com.example.gawe17.explore.JobAdapter
+import com.example.gawe17.explore.detail.JobDetailActivity
 import com.example.gawe17.model.JobCardMode
 import com.example.gawe17.model.JobList
 import org.json.JSONObject
@@ -33,7 +35,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var adapter: JobAdapter
     private lateinit var rv: RecyclerView
     private val favoriteIds get() = (requireActivity() as MainActivity).favoriteIds
-    private val appliedIds = mutableSetOf<Int>()
+    private val appliedIds get() = (requireActivity() as MainActivity).appliedIds
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -73,7 +75,6 @@ class FavoriteFragment : Fragment() {
             favoriteIds = favoriteIds,
             onApply = { job->
                 applyJob(job.jobId)
-
             },
             onMark = { job ->
                 val index = jobList.indexOfFirst { it.jobId == job.jobId }
@@ -84,13 +85,15 @@ class FavoriteFragment : Fragment() {
                     if(favoriteIds.isEmpty()) showProblem()
                 }
             },
-            onCard = {}
+            onCard = {job->
+                openDetail(job.jobId)
+            }
         )
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(requireContext())
 
-        loadFavoriteJob()
         appliedJob()
+        loadFavoriteJob()
     }
 
     override fun onResume() {
@@ -175,17 +178,24 @@ class FavoriteFragment : Fragment() {
     private fun appliedJob(){
         Thread{
             val (code, response) = ApiHelper.get("job-applications")
-            val jsonResponse = if(!response.isNullOrBlank()) JSONObject(response) else null
+            val jsonResponse = if(!response.isNullOrBlank()) JSONObject(response) else return@Thread
             activity?.runOnUiThread {
-                if (code == 200 && jsonResponse != null) {
+                if (code == 200) {
                     val jsonData = jsonResponse.getJSONArray("data")
                     appliedIds.clear()
                     for (i in 0 until jsonData.length()) {
                         val json = jsonData.getJSONObject(i).getJSONObject("job")
-                        appliedIds.add(json.getInt("id"))
+                        val ids = json.getInt("id")
+                        if(!appliedIds.contains(ids)) appliedIds.add(ids)
                     }
                 }
             }
         }.start()
+    }
+
+    private fun openDetail(jobId: Int){
+        val intent = Intent(requireContext(), JobDetailActivity::class.java)
+        intent.putExtra("JOB_ID", jobId)
+        startActivity(intent)
     }
 }

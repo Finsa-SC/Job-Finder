@@ -44,7 +44,7 @@ class ExploreFragment : Fragment() {
 
     //list
     private var jobList = mutableListOf<JobList>()
-    private val appliedIds = mutableSetOf<Int>()
+    private val appliedIds get() = (requireActivity() as MainActivity).appliedIds
     private val favoriteIds get() = (requireActivity() as MainActivity).favoriteIds
     private lateinit var adapter: JobAdapter
 
@@ -131,7 +131,10 @@ class ExploreFragment : Fragment() {
                     favoriteIds.add(job.jobId)
                     job.isMarked=true
                 }
-                adapter.notifyItemChanged(jobList.indexOf(job))
+                val pos = jobList.indexOfFirst { it.jobId == job.jobId }
+                if(pos>-1){
+                    adapter.notifyItemChanged(pos)
+                }
             },
             onCard = {job ->
                 val intent = Intent(requireContext(), JobDetailActivity::class.java)
@@ -142,9 +145,9 @@ class ExploreFragment : Fragment() {
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(requireContext())
 
+        appliedJob()
         loadJobs()
         activeButton(binding.btnAll)
-        appliedJob()
     }
 
     override fun onResume() {

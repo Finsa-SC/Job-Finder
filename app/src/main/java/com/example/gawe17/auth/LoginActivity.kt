@@ -40,17 +40,19 @@ class LoginActivity : AppCompatActivity() {
         ) }
 
         binding.btnLogin.setOnClickListener {
-            val main = findViewById<ViewGroup>(R.id.main)
-            if(ValidationHelper.isNull(main, this)) return@setOnClickListener
-
             UserLogin()
+
+            if(ValidationHelper.isNull(binding.main, this)) return@setOnClickListener
+
         }
     }
 
     private fun UserLogin(){
         val jsonData = JSONObject().apply {
-            put("email", binding.txtEmail.text.toString())
-            put("password", binding.txtPassword.text.toString())
+            put("email", "agus@gmail.com")
+            put("password", "Agus080200")
+//            put("email", binding.txtEmail.text.toString())
+//            put("password", binding.txtPassword.text.toString())
         }
 
         Thread{
