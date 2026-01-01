@@ -20,6 +20,7 @@ import com.example.gawe17.explore.JobAdapter
 import com.example.gawe17.explore.detail.JobDetailActivity
 import com.example.gawe17.model.JobCardMode
 import com.example.gawe17.model.JobList
+import com.example.gawe17.model.JobState
 import org.json.JSONObject
 
 private const val ARG_PARAM1 = "param1"
@@ -34,8 +35,8 @@ class FavoriteFragment : Fragment() {
     private val jobList = mutableListOf<JobList>()
     private lateinit var adapter: JobAdapter
     private lateinit var rv: RecyclerView
-    private val favoriteIds get() = (requireActivity() as MainActivity).favoriteIds
-    private val appliedIds get() = (requireActivity() as MainActivity).appliedIds
+    private val favoriteIds get() = JobState.favoriteIds
+    private val appliedIds get() = JobState.appliedIds
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

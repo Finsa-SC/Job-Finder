@@ -21,6 +21,7 @@ import com.example.gawe17.R
 import com.example.gawe17.databinding.FragmentExploreBinding
 import com.example.gawe17.core.network.ApiHelper
 import com.example.gawe17.model.JobCardMode
+import com.example.gawe17.model.JobState
 import org.json.JSONObject
 import java.net.URLEncoder
 
@@ -44,8 +45,8 @@ class ExploreFragment : Fragment() {
 
     //list
     private var jobList = mutableListOf<JobList>()
-    private val appliedIds get() = (requireActivity() as MainActivity).appliedIds
-    private val favoriteIds get() = (requireActivity() as MainActivity).favoriteIds
+    private val appliedIds get() = JobState.appliedIds
+    private val favoriteIds get() = JobState.favoriteIds
     private lateinit var adapter: JobAdapter
 
 

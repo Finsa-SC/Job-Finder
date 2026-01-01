@@ -1,5 +1,8 @@
 package com.example.gawe17.explore.detail
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -14,11 +17,15 @@ import com.example.gawe17.R
 import com.example.gawe17.core.network.ApiHelper
 import com.example.gawe17.core.util.UIHelper
 import com.example.gawe17.databinding.ActivityJobDetailBinding
+import com.example.gawe17.model.JobState
 import com.google.android.material.tabs.TabLayoutMediator
 import org.json.JSONObject
 
 class JobDetailActivity : AppCompatActivity() {
     var jsonJob: JSONObject? = null
+
+    private val appliedIds get() = JobState.appliedIds
+    private val favoriteIds get() = JobState.favoriteIds
 
     private lateinit var binding: ActivityJobDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,12 +57,23 @@ class JobDetailActivity : AppCompatActivity() {
 
         val _jobId = intent.getIntExtra("JOB_ID", -1)
 
-        binding.jobDetailBtnBackward.setOnClickListener { this.finish() }
+        loadAction(_jobId)
         loadJob(_jobId)
 
+        binding.jobDetailBtnBackward.setOnClickListener { this.finish() }
+        binding.btnMark.setOnClickListener {
+            if(_jobId !in favoriteIds){
+                favoriteIds.add(_jobId)
+            }else{
+                favoriteIds.remove(_jobId)
+            }
+            loadAction(_jobId)
+        }
+        binding.btnShare.setOnClickListener { shareJob(_jobId) }
         binding.btnApply.setOnClickListener { applyJob(_jobId) }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadJob(jobId: Int?){
         Thread{
             val (code, response) = ApiHelper.get("jobs/$jobId")
@@ -105,14 +123,40 @@ class JobDetailActivity : AppCompatActivity() {
         }
     }
 
-    public fun applyJob(jobId: Int){
-        Thread {
-            val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
-            runOnUiThread {
-                if(code==200){
-                    UIHelper.showDialog(this, "Success Applied a Job!", R.drawable.furina_instruction)
+    fun applyJob(jobId: Int){
+        if(jobId !in appliedIds){
+            Thread {
+                val (code, response) = ApiHelper.post("jobs/${jobId}/apply")
+                runOnUiThread {
+                    if(code==200){
+                        UIHelper.showDialog(this, "Success Applied a Job!", R.drawable.furina_instruction)
+                        appliedIds.add(jobId)
+                    }
                 }
-            }
-        }.start()
+            }.start()
+        }else UIHelper.showDialog(this, "You are already applied this job before", R.drawable.furina_intimidating)
+    }
+
+    private fun loadAction(jobId: Int){
+        if(jobId in favoriteIds){
+            binding.btnMark.setBackgroundResource(R.drawable.circle_button_active)
+            binding.btnMark.setColorFilter(Color.WHITE)
+        }else{
+            binding.btnMark.setBackgroundResource(R.drawable.circle_button)
+            binding.btnMark.setColorFilter(Color.GRAY)
+        }
+    }
+
+    private fun shareJob(jobId: Int){
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "Hey! Checkout this job: http://api/jobs/$jobId"
+            )
+        }
+        startActivity(
+            Intent.createChooser(intent, "share job via")
+        )
     }
 }

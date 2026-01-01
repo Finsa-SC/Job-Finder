@@ -41,9 +41,9 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnLogin.setOnClickListener {
             UserLogin()
+            this.finish()
 
             if(ValidationHelper.isNull(binding.main, this)) return@setOnClickListener
-
         }
     }
 
