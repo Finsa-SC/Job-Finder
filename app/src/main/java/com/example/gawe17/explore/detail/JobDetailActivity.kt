@@ -152,11 +152,9 @@ class JobDetailActivity : AppCompatActivity() {
             type = "text/plain"
             putExtra(
                 Intent.EXTRA_TEXT,
-                "Hey! Checkout this job: http://api/jobs/$jobId"
+                "Hey! Checkout this job: http://127.0.0.1:5000/api/jobs/$jobId"
             )
         }
-        startActivity(
-            Intent.createChooser(intent, "share job via")
-        )
+        startActivity(Intent.createChooser(intent, "share job via"))
     }
 }
